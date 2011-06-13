@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Animation</title>
+<link href="main.css" rel="stylesheet" />
+<script type="text/javascript">
+
+//holds the drawing context of the canvas element
+var context;
+
+//size of canvas
+var width = 800;
+var height = 300;
+
+//position of the ball
+var x = 10;
+var y = 10;
+
+//speed of the ball
+var dx = 2;
+var dy = 2;
+
+//ball radius
+var radius = 10;
+
+function init() {
+	context = document.getElementById("canvas").getContext("2d");
+
+	//keep calling draw function after every 15 milliseconds
+	setInterval(draw,15);
+}
+
+function draw() {
+	clear();
+
+	rectangle(0,0,width,height);
+	
+
+	//collision detection and velocity change
+	if(x+dx+radius>width||x+dx<radius) {
+		dx = -dx;
+	}
+	if(y+dy+radius>height||y+dy<radius) {
+		dy = -dy;
+	}
+
+	
+	x += dx;
+	y += dy;
+
+	circle(x,y);
+}
+
+//draws the circle with center location at x,y
+function circle(x,y) {
+	context.fillStyle = "#444444";
+	context.beginPath();
+	context.arc(x,y,radius,0,2*Math.PI,true);
+	context.closePath();
+	context.fill();
+}
+
+//draws a rectangle with width(w) & height(h) with top left corner at (x,y) 
+function rectangle(x,y,w,h) {
+	context.fillStyle= "#000000";	
+	context.strokeRect(x,y,w,h);
+}
+
+//clears the whole canvas
+function clear() {
+	context.clearRect(0,0,800,600);
+}
+
+window.addEventListener("load",init,true);
+</script>
+</head>
+<body>
+	<div id="wrapper">
+		<canvas id="canvas" width="800" height="300"></canvas>
+	</div>
+	<script type="text/javascript" src="footer.js"></script>
+
+</body>
+</html>
